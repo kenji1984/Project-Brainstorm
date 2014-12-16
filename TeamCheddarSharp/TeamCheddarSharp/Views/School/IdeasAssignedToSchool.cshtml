@@ -1,0 +1,72 @@
+﻿@model IEnumerable<TeamCheddarSharp.Models.IdeaView>
+
+@{
+    ViewBag.Title = "IdeasAssignedToSchool";
+}
+
+<div class="button bottom_nav_Details2" id="school">
+    <p class="button">
+        @Html.ActionLink("Back to Portal", "UserPanel", "Portal", new { id = ViewBag.id }, null) 
+    </p>
+    </div>
+<div class="button bottom_nav_Details_right" id="school">
+    <p class="button">
+        @Html.ActionLink("Back to Home", "Index", "Home")
+    </p>
+</div>
+
+@if (ViewBag.SchoolName != null)
+{
+        <legend>@ViewBag.SchoolName</legend>
+
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Summary)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AmbassadorName)
+                </th>
+                <th>Functions</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Summary)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @Html.ActionLink(item.AmbassadorName, "AmbassadorIdeas", "Ambassador", new { id = item.User_id }, null)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Change Status", "ChangeStatus", "Admin", new { id = item.Assigned_id }, null) |
+                        <a href='@Url.Action("DeleteAssignedIdea", "Home", new { id = item.Assigned_id }, null)' class="delete">
+                            <img class="user" src='@Url.Content("~/Content/images/trashcan.png")' />
+                        </a> |
+
+                        <a href='@Url.Action("Details", "Ambassador", new { id = item.Assigned_id }, null)' class="delete">
+                            <img class="user" src='@Url.Content("~/Content/images/InfoIcon.png")' />
+                        </a>
+
+                    </td>
+                </tr>
+            }
+        </table>
+}
+else
+{
+    <p>School does not exist.</p>
+}

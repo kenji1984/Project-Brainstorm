@@ -1,0 +1,75 @@
+﻿@using TeamCheddarSharp.Models;
+@model TeamCheddarSharp.Models.School
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<div class="button" id="school">
+    <p>
+        @Html.ActionLink("Back to School List", "Index", "School")
+    </p>
+
+</div>
+@{
+    UserModel user = (UserModel)HttpContext.Current.Session["userLoggedIn"];
+}
+@if (user != null)
+{
+    if (user.Role == "Admin")
+    {
+        <div>
+            <dl>
+                <dt>
+                    School @Html.DisplayNameFor(model => model.Name):
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Address):
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Address)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Phone):
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Phone)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Contact):
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Contact)
+                </dd>
+
+            </dl>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="func-btn">
+                    <div class="assign">
+                        <input type="submit" value="Delete" class="btn btn-default" />
+                    </div>
+                </div>
+            }
+            <hr />
+
+        </div>
+    }
+    else
+    {
+        <h3>Unauthorized Access!</h3>
+    }
+}

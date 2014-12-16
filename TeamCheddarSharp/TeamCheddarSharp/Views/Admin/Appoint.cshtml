@@ -1,0 +1,23 @@
+﻿@model TeamCheddarSharp.Models.User
+
+@{
+    ViewBag.Title = "Appoint";
+}
+<h2>User Update</h2>
+<div class="bottom_nav_Edit">
+    @Html.ActionLink("Back to User List", "ListUsers", "Admin")
+</div>
+@using (Html.BeginForm())
+{
+    <div>
+        @Model.Name
+        @Html.DropDownList("roles")
+    </div>
+    <br/>
+    <div>
+        <input type="submit" value="Update Role" />
+    </div>
+}
+<hr />
+
+

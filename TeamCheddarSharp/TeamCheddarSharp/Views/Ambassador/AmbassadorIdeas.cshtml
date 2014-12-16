@@ -1,0 +1,102 @@
+﻿@model IEnumerable<TeamCheddarSharp.Models.IdeaView>
+@using TeamCheddarSharp.Models
+
+@{
+    ViewBag.Title = "Assigned ideas";
+}
+
+@{
+    UserModel userLoggedIn = (UserModel)HttpContext.Current.Session["userLoggedIn"];
+}
+
+@if (Model.Count() == 0)
+{
+    <p>You have no projects currently assigned to you.</p>
+}
+else
+{
+    if (userLoggedIn != null || @ViewBag.AmbassadorName != null)
+    {
+
+        if (userLoggedIn.Role == "Admin")
+        {
+            <div class="bottom_nav_Details2 button" id="school">
+                <p class="button">
+                    @Html.ActionLink("Back Assigned Ideas", "ViewAllAssignedIdeas", "Admin")
+                </p>
+            </div>
+        }
+        <div class="bottom_nav_Details_right button" id="school">
+            <p class="button">
+                @Html.ActionLink("Return to portal", "UserPanel", "Portal")
+            </p>
+        </div>
+
+        <legend> <b>Ambassador </b>@ViewBag.AmbassadorName </legend>
+        <table class="table">
+            <tr>
+                <th class="title">
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th class="summary">
+                    @Html.DisplayNameFor(model => model.Summary)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SchoolName)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="title">
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td class="summary">
+                        @Html.DisplayFor(modelItem => item.Summary)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @if (userLoggedIn.Role == "Admin")
+                        {
+                            @Html.ActionLink(item.SchoolName, "IdeasAssignedToSchool", "School", new { id = item.School_id }, null)
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.SchoolName)
+                        }
+                    </td>
+                    <td>
+                        @Html.ActionLink("Status", "ChangeStatus", "Admin", new { id = item.Assigned_id }, null) |
+
+                        @if (userLoggedIn.Role == "Admin")
+                        {
+                            <a href='@Url.Action("DeleteAssignedIdea", "Home", new { id = item.Assigned_id })' class="edit">
+                                <img class="user" src='@Url.Content("~/Content/images/trashcan.png")' />
+                            </a>
+                        }
+                        @if (userLoggedIn.Role == "Ambassador")
+                        {
+                            <a href='@Url.Action("Append", "Ambassador", new { id = item.Assigned_id })' class="edit">
+                                <img class="user" src='@Url.Content("~/Content/images/append.png")' />
+                            </a>
+                        }
+                        <a href='@Url.Action("Details", "Ambassador", new { id = item.Assigned_id })' class="edit">
+                            <img class="user" src='@Url.Content("~/Content/images/infoIcon.png")' />
+                        </a>
+                    </td>
+                </tr>
+            }
+
+        </table>
+        <br />
+    }
+}
+
+

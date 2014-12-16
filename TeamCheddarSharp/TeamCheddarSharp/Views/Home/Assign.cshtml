@@ -1,0 +1,73 @@
+﻿@model TeamCheddarSharp.Models.Idea
+
+@{
+    ViewBag.Title = "Assign";
+}
+
+<div class="bottom_nav_Details2 button" id="school">
+    <p class="button">
+        @Html.ActionLink("Back to Project details", "Details", new { id = Model.Idea_num })
+    </p>
+</div>
+   
+<div class="bottom_nav_Details_right button" id="school">
+    <p class="button">
+        @Html.ActionLink("Back to All Projects", "Index")
+    </p>
+</div>
+    
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true)
+
+    <div>
+        <dl>
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Summary)
+            </dt>
+            <dd>
+                @Html.Raw(Model.Summary.Replace(Environment.NewLine, "<br/>"))
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+            <dd>
+                @Html.Raw(Model.Description.Replace(Environment.NewLine, "<br/>"))
+            </dd>
+        </dl>
+    </div>
+
+    <div class="assign-row">
+        <div class="assign-col1">
+            <b> @Html.DisplayName("Assign to school: ") </b>
+            </div>
+        <div class="assign-col2">
+            @Html.DropDownList("schools", "Select school")
+        </div>
+
+        <div class="assign-col1">
+            <b> @Html.DisplayName("Assign ambassador: ") </b>
+            </div>
+        <div class="assign-col2">
+            @Html.DropDownList("ambassadors", "Select ambassador")
+        </div>
+    </div>
+
+    <div class="func-btn">
+        <div class="assign">
+            <input type="submit" value="Assign" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+

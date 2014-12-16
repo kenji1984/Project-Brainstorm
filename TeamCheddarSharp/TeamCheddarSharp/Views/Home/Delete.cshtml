@@ -1,0 +1,111 @@
+﻿@using TeamCheddarSharp.Models;
+@model TeamCheddarSharp.Models.IdeaView
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<div class="bottom_nav_Details2 button" id="school">
+    <p class="button">
+        @Html.ActionLink("Back to Project details", "Details", new { id = Model.Idea_num })
+    </p>
+</div>
+<div class="bottom_nav_Details_right button" id="school">
+    <p class="button">
+        @Html.ActionLink("Back to All Projects", "Index")
+    </p>
+</div>
+
+
+@{
+    UserModel userLoggedIn = (UserModel)HttpContext.Current.Session["userLoggedIn"];
+
+    if (userLoggedIn.Role == "Admin")
+    {
+        <div>
+            <dl>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Title)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Title)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Summary)
+                </dt>
+
+                <dd>
+                    @Html.Raw(Model.Summary.Replace(Environment.NewLine, "<br/>"));
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+
+                <dd>
+                    @Html.Raw(Model.Description.Replace(Environment.NewLine, "<br/>"))
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Justification)
+                </dt>
+
+                <dd>
+                    @Html.Raw(Model.Justification.Replace(Environment.NewLine, "<br/>"))
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Date_submitted)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Date_submitted)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Status)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Status)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.UserName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.UserName)
+                </dd>
+
+            </dl>
+
+            <fieldset>
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="assign">
+                        <div>
+                            <input type="radio" name="Remove" value="Delete" /> Delete
+                            <input type="radio" name="Remove" value="Archive" /> Archive
+                        </div>
+                        <hr /><br />
+                        <div class="form-actions no-color">
+                            <input type="submit" value="Save Changes" class="btn btn-default" />
+                        </div>
+                    </div>
+                }
+            </fieldset>
+        </div>
+    }
+
+    else
+    {
+        <p>Unauthorized action. Only administrator can delete ideas.</p>
+    }
+
+}
+
+

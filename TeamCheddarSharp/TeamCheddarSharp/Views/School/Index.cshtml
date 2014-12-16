@@ -1,0 +1,80 @@
+﻿@using TeamCheddarSharp.Models;
+@model IEnumerable<TeamCheddarSharp.Models.SchoolModel>
+
+@{
+    ViewBag.Title = "ViewSchool";
+}
+
+@{
+    UserModel user = (UserModel)HttpContext.Current.Session["userLoggedIn"];
+
+    if (user.Role == "Admin")
+    {
+        <div class="bottom_nav_Details2 button" id="school">
+            <p class="button">
+                @Html.ActionLink("Add New School", "Create", "School")
+            </p>
+        </div>
+
+        <div class="bottom_nav_Details_right button" id="school">
+            <p class="button">
+                @Html.ActionLink("Back to User Preferences", "UserPanel", "Portal")
+            </p>
+        </div>
+
+
+        if (Model.Count() > 0)
+        {
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Address)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Phone)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Contact)
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Address)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Phone)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Contact)
+                        </td>
+                        <td>
+                            <a href='@Url.Action("Edit", new { id = item.School_id })' class="edit">
+                                <img class="user" src='@Url.Content("~/Content/images/edit.png")' />
+                            </a>|
+                            <a href='@Url.Action("Delete", new { id = item.School_id })' class="delete">
+                                <img class="user" src='@Url.Content("~/Content/images/trashcan.png")' />
+                            </a>
+
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        }
+    }
+    else
+    {
+        <h3>Unauthorized Access!</h3>
+    }
+    
+}

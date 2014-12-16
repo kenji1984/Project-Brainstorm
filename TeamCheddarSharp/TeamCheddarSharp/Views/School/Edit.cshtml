@@ -1,0 +1,77 @@
+﻿@using TeamCheddarSharp.Models;
+@model TeamCheddarSharp.Models.SchoolModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+<div class="button" id="school">
+    <p>
+        @Html.ActionLink("Back to School List", "Index", "School")
+    </p>
+
+</div>
+@{
+    UserModel user = (UserModel)HttpContext.Current.Session["userLoggedIn"];
+
+    if (user.Role == "Admin")
+    {
+
+        using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+    <fieldset>
+        <legend>Edit School</legend>
+            <div>
+                @Html.ValidationSummary(true)
+
+                <div>
+                    @Html.LabelFor(model => model.Name)
+                    <div>
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control first" } })
+                        @Html.ValidationMessageFor(model => model.Name)
+                    </div>
+                </div>
+                <br />
+
+                <div>
+                    @Html.LabelFor(model => model.Address)
+                    <div>
+                        @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Address)
+                    </div>
+                </div>
+                <br />
+
+                <div>
+                    @Html.LabelFor(model => model.Phone)
+                    <div>
+                        @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Phone)
+                    </div>
+                </div>
+                <br />
+
+                <div>
+                    @Html.LabelFor(model => model.Contact)
+                    <div>
+                        @Html.EditorFor(model => model.Contact, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Contact)
+                    </div>
+                </div>
+                <hr/>
+                <div class="func-btn">
+                    <div class="assign">
+                        <input type="submit" value="Save" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        }
+
+    }
+    else
+    {
+        <h3>Unauthorized Access!</h3>
+    }
+}

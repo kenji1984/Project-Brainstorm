@@ -1,0 +1,19 @@
+﻿div h4{
+    color: #235c46;
+}
+
+dl.dl-horizontal {
+    position: relative;
+    left: 5%;
+    width: 50%;
+    border: solid 2px;
+    padding-bottom: 2%;
+}
+
+dl dt{
+    padding-bottom: 2%;
+}
+
+dl dd{
+    padding-bottom: 2%
+}

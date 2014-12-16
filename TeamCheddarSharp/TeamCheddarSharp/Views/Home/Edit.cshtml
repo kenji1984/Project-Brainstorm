@@ -1,0 +1,114 @@
+﻿@using TeamCheddarSharp.Models;
+@model TeamCheddarSharp.Models.IdeaView
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<div class="bottom_nav_Details2 button" id="school">
+    <p class="button">
+        @Html.ActionLink("Back to Project details", "Details", new { id = Model.Idea_num }) 
+    </p>
+</div>
+    <div class="bottom_nav_Details_right button" id="school">
+    <p class="button">
+        @Html.ActionLink("Back to All Projects", "Index", "Home")
+    </p>
+</div>
+
+@{
+    UserModel userLoggedIn = (UserModel)HttpContext.Current.Session["userLoggedIn"];
+}
+
+@if (userLoggedIn != null)
+{
+    if ((userLoggedIn.User_id == Model.User_id || userLoggedIn.Role == "Admin") && Model.Assigned == false)
+    {
+        using (Html.BeginForm("Edit", "Home", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div>
+                <fieldset>
+                    <legend>Edit Idea</legend>
+
+                    <div>
+                        @Html.LabelFor(model => model.Title)
+                    </div>
+                    <div>
+                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control first title-txtbox", maxLength = "100" } })
+                        @Html.ValidationMessageFor(model => model.Title)
+                        <div id="title-remaining"></div>
+                        <br />
+                    </div>
+
+                    <div>
+                        @Html.LabelFor(model => model.Summary)
+                    </div>
+                    <div>
+                        @Html.EditorFor(model => model.Summary, new { htmlAttributes = new { @class = "form-control summary-txtbox", maxLength = "250" } })
+                        @Html.ValidationMessageFor(model => model.Summary, "", new { @class = "text-danger" })
+                        <div id="summary-remaining"></div>
+                        <br />
+                    </div>
+
+                    <div>
+                        @Html.LabelFor(model => model.Description)
+                    </div>
+                    <div>
+                        @Html.TextAreaFor(model => model.Description, new { @maxLength = "1000", @class = "desc-txtarea", htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                        <div id="desc-remaining"></div>
+                        <br />
+                    </div>
+
+                    <div>
+                        @Html.LabelFor(model => model.Justification)
+                    </div>
+                    <div>
+                        @Html.TextAreaFor(model => model.Justification, new { @maxLength = "1000", @class = "just-txtarea", htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Justification, "", new { @class = "text-danger" })
+                        <div id="just-remaining"></div>
+                        <br />
+                    </div>
+
+                    <div>
+                        @Html.LabelFor(model => model.Files)
+                    </div>
+                    <div>
+                        @Html.TextBoxFor(model => model.Files, new { type = "file", multiple = "true" })
+                    </div>
+                    <br />
+
+                    @if (ViewBag.AttachedFiles.Count > 0)
+                    {
+                        <div>
+                            @foreach (var file in ViewBag.AttachedFiles)
+                            {
+                                @Html.ActionLink((string)file.File_name, "Download", "Home", new { id = file.File_id }, null)
+                                <a href='@Url.Action("RemoveFile", "Home", new { id = file.File_id})'>
+                                    <img src='@Url.Content("~/Content/Images/remove.png")' />
+                                </a>
+                            }
+                        </div>
+                    }
+                    <br/>
+                    @Html.HiddenFor(model => model.Idea_num)
+                    @Html.HiddenFor(model => model.User_id, new { @Value = @userLoggedIn.User_id })
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Save" class="btn btn-default" />
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        }
+    }
+
+    else
+    {
+        <p>Unauthorized action. Only administrator can edit other contributor's ideas.</p>
+    }
+}
+

@@ -1,0 +1,14 @@
+﻿@model TeamCheddarSharp.Models.UserModel
+
+
+<div id="user-menu">
+    <div id="prj-tab" class="opts proj-tab"><b>Options</b></div>
+</div>
+
+<div id="idea-opt">
+    <div>
+        <p>@Html.ActionLink("My Ideas", "ListProjectByUser", "Home", new { id = @Model.User_id }, null)</p>
+        <p>@Html.ActionLink("View All Ideas", "Index", "Home")</p>
+        <p>@Html.ActionLink("Log out", "Logout", "Account")</p>
+    </div>
+</div>

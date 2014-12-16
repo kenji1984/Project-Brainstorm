@@ -1,0 +1,23 @@
+﻿
+.pTable{
+    position: absolute;
+    width: 90%;
+    margin: .4em auto;
+    border: solid 2px;
+    border-collapse: separate;
+    border-spacing: 10px;
+}
+th{
+    background-color: #dcdcdc;
+    border: solid 1px black;
+    text-align: center;
+    
+}
+
+td{
+    border: solid 1px black;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-left: 5px;
+}

@@ -1,0 +1,119 @@
+﻿@model TeamCheddarSharp.Models.ReportView
+
+@{
+    ViewBag.Title = "GenerateReport";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true);
+    <fieldset>
+        <legend>Reports</legend>
+        <div>
+            @Html.DisplayNameFor(m => m.ReportCategory)
+            @Html.DropDownListFor(m => m.ReportCategory, new List<SelectListItem>
+            {
+                new SelectListItem{ Text="All", Value="All"},
+                new SelectListItem{ Text="Project", Value="Project"},
+                new SelectListItem{ Text="School", Value="School"},
+                new SelectListItem{ Text="User", Value="User"},
+            }, "Select category")
+        </div>
+        <br />
+        <div id="start_date">
+            @Html.DisplayNameFor(m => m.StartDate)
+            @Html.EditorFor(m => m.StartDate, new { htmlAttributes = new { @class = "date" } })
+        </div>
+        <br />
+        <div id="end_date">
+            @Html.DisplayNameFor(m => m.EndDate)
+            @Html.EditorFor(m => m.EndDate, new { htmlAttributes = new { @class = "date" } })
+        </div>
+        <br />
+        <div>
+            <div class="assign">
+                <input type="submit" value="Run report" class="btn btn-default" />
+            </div>
+        </div>
+
+        <div id="report">
+            @if (Model != null)
+            {
+                if (Model.ReportCategory == "Project" || Model.ReportCategory == "All")
+                {
+                    <div class="report">
+                        <label class="report-lbl">Project Report</label>
+                        <p>
+                            @Html.LabelFor(m => m.NumIdeas)
+                            @Html.DisplayFor(m => m.NumIdeas)
+                        </p>
+                        <p>
+                            @Html.LabelFor(m => m.NumAssigned)
+                            @Html.DisplayFor(m => m.NumAssigned)
+                        </p>
+                        <p>
+                            @Html.LabelFor(m => m.NumSubmitted)
+                            @Html.DisplayFor(m => m.NumSubmitted)
+                        </p>
+                        <p>
+                            @Html.LabelFor(m => m.NumProg)
+                            @Html.DisplayFor(m => m.NumProg)
+                        </p>
+                        <p>
+                            @Html.LabelFor(m => m.NumCompleted)
+                            @Html.DisplayFor(m => m.NumCompleted)
+                        </p>
+                        <p>
+                            @Html.LabelFor(m => m.NumArchived)
+                            @Html.DisplayFor(m => m.NumArchived)
+                        </p>
+                    </div>
+                }
+                if (Model.ReportCategory == "School" || Model.ReportCategory == "All")
+                {
+                    <div class="report">
+                        <label class="report-lbl">School Report</label>
+                        <p>
+                            @Html.LabelFor(m => m.NumSchools)
+                            @Html.DisplayFor(m => m.NumSchools)
+                        </p>
+                        <p>
+                            @Html.LabelFor(m => m.NumSchoolsBusy)
+                            @Html.DisplayFor(m => m.NumSchoolsBusy)
+                        </p>
+                    </div>
+                }
+
+                if (Model.ReportCategory == "User" || Model.ReportCategory == "All")
+                {
+                    <div class="report">
+                        <label class="report-lbl">User Report</label>
+                        <p>
+                            @Html.LabelFor(m => m.NumUsers)
+                            @Html.DisplayFor(m => m.NumUsers)
+                        </p>
+                        <p>
+                            @Html.LabelFor(m => m.NumContr)
+                            @Html.DisplayFor(m => m.NumContr)
+                        </p>
+                        <p>
+                            @Html.LabelFor(m => m.NumAmbas)
+                            @Html.DisplayFor(m => m.NumAmbas)
+                        </p>
+                        <p>
+                            @Html.LabelFor(m => m.NumAdmins)
+                            @Html.DisplayFor(m => m.NumAdmins)
+                        </p>
+                        <p>
+                            @Html.LabelFor(m => m.NumUserParticipate)
+                            @Html.DisplayFor(m => m.NumUserParticipate)
+                        </p>
+                    </div>
+                }
+
+            }
+        </div>
+
+        </fieldset>
+}

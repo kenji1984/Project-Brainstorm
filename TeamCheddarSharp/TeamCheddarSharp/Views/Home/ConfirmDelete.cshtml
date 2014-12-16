@@ -1,0 +1,29 @@
+﻿@model IEnumerable<TeamCheddarSharp.Models.Assigned_Idea>
+
+@{
+    ViewBag.Title = "ConfirmDelete";
+}
+
+<div class="bottom_nav_Details2 button" id="school">
+    <p class="button">
+        @Html.ActionLink("Back to Project List", "Index")
+    </p>
+</div>
+
+<p>This project is assigned to @Model.Count() school(s). Deleting this project will also delete all projects associated with that school</p>
+<p>If you want to delete assigned project individually. Go to assigned project. You can also access assigned project from admin portal.</p>
+<p>Are you sure you want to delete?</p>
+
+<hr/>
+
+<input class="btn btn-default" type="button" value="Yes" onclick="location.href('@Url.Action("Delete", "Home", new {id = ViewBag.id, confirm = "Yes"})')" />
+<input class="btn btn-default" type="button" value="No" onclick="location.href('@Url.Action("Index","Home")')" />
+<br />
+<hr/>
+<div class="nav_ConfirmDelete">
+    <p>
+        @Html.ActionLink("Proceed to Assigned Project instead", "AssignedIdeas", "Home", new { id = ViewBag.id }, null)
+    </p>
+</div>
+
+

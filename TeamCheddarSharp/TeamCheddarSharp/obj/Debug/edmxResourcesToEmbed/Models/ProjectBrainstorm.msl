@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TeamCheddarSharpModelStoreContainer" CdmEntityContainer="TeamCheddarSharpEntities">
+    <EntitySetMapping Name="Codes">
+      <EntityTypeMapping TypeName="TeamCheddarSharpModel.Code">
+        <MappingFragment StoreEntitySet="Code">
+          <ScalarProperty Name="Code_id" ColumnName="Code_id" />
+          <ScalarProperty Name="Code_def" ColumnName="Code_def" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="TeamCheddarSharpModel.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+          <ScalarProperty Name="User_id" ColumnName="User_id" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Schools">
+      <EntityTypeMapping TypeName="TeamCheddarSharpModel.School">
+        <MappingFragment StoreEntitySet="School">
+          <ScalarProperty Name="Contact" ColumnName="Contact" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="School_id" ColumnName="School_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Archives">
+      <EntityTypeMapping TypeName="TeamCheddarSharpModel.Archive">
+        <MappingFragment StoreEntitySet="Archive">
+          <ScalarProperty Name="Idea_num" ColumnName="Idea_num" />
+          <ScalarProperty Name="Archive_id" ColumnName="Archive_id" />
+          <ScalarProperty Name="School" ColumnName="School" />
+          <ScalarProperty Name="Date_submitted" ColumnName="Date_submitted" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Author" ColumnName="Author" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Summary" ColumnName="Summary" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Ideas">
+      <EntityTypeMapping TypeName="TeamCheddarSharpModel.Idea">
+        <MappingFragment StoreEntitySet="Ideas">
+          <ScalarProperty Name="Justification" ColumnName="Justification" />
+          <ScalarProperty Name="Assigned" ColumnName="Assigned" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="User_id" ColumnName="User_id" />
+          <ScalarProperty Name="Comp_date" ColumnName="Comp_date" />
+          <ScalarProperty Name="Date_submitted" ColumnName="Date_submitted" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Summary" ColumnName="Summary" />
+          <ScalarProperty Name="Idea_num" ColumnName="Idea_num" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Assigned_Idea">
+      <EntityTypeMapping TypeName="TeamCheddarSharpModel.Assigned_Idea">
+        <MappingFragment StoreEntitySet="Assigned_Idea">
+          <ScalarProperty Name="Completion_date" ColumnName="Completion_date" />
+          <ScalarProperty Name="Assigned_id" ColumnName="Assigned_id" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Idea_num" ColumnName="Idea_num" />
+          <ScalarProperty Name="School_id" ColumnName="School_id" />
+          <ScalarProperty Name="Ambassador_id" ColumnName="Ambassador_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Files">
+      <EntityTypeMapping TypeName="TeamCheddarSharpModel.File">
+        <MappingFragment StoreEntitySet="File">
+          <ScalarProperty Name="Idea_num" ColumnName="Idea_num" />
+          <ScalarProperty Name="File_data" ColumnName="File_data" />
+          <ScalarProperty Name="File_name" ColumnName="File_name" />
+          <ScalarProperty Name="File_id" ColumnName="File_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Append_Log">
+      <EntityTypeMapping TypeName="TeamCheddarSharpModel.Append_Log">
+        <MappingFragment StoreEntitySet="Append_Log">
+          <ScalarProperty Name="User_id" ColumnName="User_id" />
+          <ScalarProperty Name="Date_append" ColumnName="Date_append" />
+          <ScalarProperty Name="Append_trail" ColumnName="Append_trail" />
+          <ScalarProperty Name="Idea_num" ColumnName="Idea_num" />
+          <ScalarProperty Name="Log_id" ColumnName="Log_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Event_Log">
+      <EntityTypeMapping TypeName="TeamCheddarSharpModel.Event_Log">
+        <MappingFragment StoreEntitySet="Event_Log">
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="School_id" ColumnName="School_id" />
+          <ScalarProperty Name="Assigned_id" ColumnName="Assigned_id" />
+          <ScalarProperty Name="Event_id" ColumnName="Event_id" />
+          <ScalarProperty Name="Access_date" ColumnName="Access_date" />
+          <ScalarProperty Name="Action" ColumnName="Action" />
+          <ScalarProperty Name="Idea_num" ColumnName="Idea_num" />
+          <ScalarProperty Name="User_id" ColumnName="User_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

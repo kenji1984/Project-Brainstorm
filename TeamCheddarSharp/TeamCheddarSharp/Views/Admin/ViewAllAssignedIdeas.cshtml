@@ -1,0 +1,91 @@
+﻿@model IEnumerable<TeamCheddarSharp.Models.IdeaView>
+@using TeamCheddarSharp.Models
+
+@{
+    ViewBag.Title = "Assigned ideas";
+}
+
+@{
+    UserModel userLoggedIn = (UserModel)HttpContext.Current.Session["userLoggedIn"];
+}
+
+<div class="button bottom_nav_Details2" id="school">
+    <p>
+        @Html.ActionLink("Back to User Preferences", "UserPanel", "Portal", new { id = ViewBag.id }, null)
+    </p>
+
+</div>
+
+@if (userLoggedIn.Role == "Admin")
+{
+    using (Html.BeginForm("ViewAllAssignedIdeas", "Admin"))
+    {
+        <div>
+            @Html.Editor("search_idea")
+            <input type="submit" value="Search" />
+        </div>
+    }
+    <hr />
+
+    <table class="table">
+        <tr>
+            <th class="title">
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th class="summary">
+                @Html.DisplayNameFor(model => model.Summary)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AmbassadorName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SchoolName)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="title">
+                    @Html.ActionLink(item.Title, "AssignedIdeas", "Home", new { id = item.Idea_num }, null)
+                </td>
+                <td class="summary">
+                    @Html.DisplayFor(modelItem => item.Summary)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.ActionLink(item.AmbassadorName, "AmbassadorIdeas", "Ambassador", new { id = item.User_id }, null)
+                </td>
+                <td>
+                    @Html.ActionLink(item.SchoolName, "IdeasAssignedToSchool", "School", new { id = item.School_id }, null)
+                </td>
+                <td>
+                    @Html.ActionLink("Status", "ChangeStatus", "Admin", new { id = item.Assigned_id }, null) |
+                    <a href='@Url.Action("DeleteAssignedIdea", "Home", new { id = item.Assigned_id }, null)' class="delete">
+                        <img class="user" src='@Url.Content("~/Content/images/trashcan.png")' />
+                    </a> |
+
+                    <a href='@Url.Action("Details", "Ambassador", new { id = item.Assigned_id }, null)' class="delete">
+                        <img class="user" src='@Url.Content("~/Content/images/InfoIcon.png")' />
+                    </a>
+
+                </td>
+            </tr>
+        }
+
+    </table>
+    <br />
+}
+else
+{
+    <p>Unauthorized action! You're not an admin.</p>
+}
+
+
+

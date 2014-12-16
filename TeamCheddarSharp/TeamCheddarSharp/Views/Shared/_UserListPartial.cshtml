@@ -1,0 +1,12 @@
+﻿@model IEnumerable<TeamCheddarSharp.Models.User>
+
+@foreach (var item in Model)
+{
+    <hr />
+    @Html.ActionLink(item.Name, "Appoint", "Admin", new { id = item.User_id }, null)
+}
+<hr />
+<p></p>
+
+
+

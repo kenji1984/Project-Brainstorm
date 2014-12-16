@@ -1,0 +1,275 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TeamCheddarSharpModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Append_Log">
+    <Key>
+      <PropertyRef Name="Log_id" />
+    </Key>
+    <Property Name="Log_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Idea_num" Type="int" Nullable="false" />
+    <Property Name="Append_trail" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Date_append" Type="datetime" Nullable="false" />
+    <Property Name="User_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Archive">
+    <Key>
+      <PropertyRef Name="Archive_id" />
+    </Key>
+    <Property Name="Title" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Summary" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Author" Type="nvarchar" MaxLength="64" Nullable="false" />
+    <Property Name="Status" Type="nvarchar" MaxLength="50" />
+    <Property Name="Date_submitted" Type="datetime" Nullable="false" />
+    <Property Name="School" Type="nvarchar" MaxLength="256" />
+    <Property Name="Archive_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Idea_num" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Assigned_Idea">
+    <Key>
+      <PropertyRef Name="Assigned_id" />
+    </Key>
+    <Property Name="Ambassador_id" Type="int" Nullable="false" />
+    <Property Name="School_id" Type="int" Nullable="false" />
+    <Property Name="Idea_num" Type="int" Nullable="false" />
+    <Property Name="Status" Type="nvarchar" MaxLength="25" Nullable="false" />
+    <Property Name="Assigned_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Completion_date" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Code">
+    <Key>
+      <PropertyRef Name="Code_id" />
+    </Key>
+    <Property Name="Code_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code_def" Type="nvarchar" MaxLength="128" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Event_Log">
+    <Key>
+      <PropertyRef Name="Event_id" />
+    </Key>
+    <Property Name="User_id" Type="int" Nullable="false" />
+    <Property Name="Idea_num" Type="int" Nullable="false" />
+    <Property Name="Action" Type="int" Nullable="false" />
+    <Property Name="Access_date" Type="datetime" Nullable="false" />
+    <Property Name="Event_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Assigned_id" Type="int" Nullable="false" />
+    <Property Name="School_id" Type="int" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="128" Nullable="false" />
+  </EntityType>
+  <EntityType Name="File">
+    <Key>
+      <PropertyRef Name="File_id" />
+    </Key>
+    <Property Name="File_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="File_name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="File_data" Type="varbinary(max)" Nullable="false" />
+    <Property Name="Idea_num" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Ideas">
+    <Key>
+      <PropertyRef Name="Idea_num" />
+    </Key>
+    <Property Name="Idea_num" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Summary" Type="nvarchar" MaxLength="256" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Date_submitted" Type="datetime" Nullable="false" />
+    <Property Name="Comp_date" Type="datetime" />
+    <Property Name="User_id" Type="int" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Assigned" Type="bit" Nullable="false" />
+    <Property Name="Justification" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="School">
+    <Key>
+      <PropertyRef Name="School_id" />
+    </Key>
+    <Property Name="School_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="Address" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="Phone" Type="nvarchar" MaxLength="15" Nullable="false" />
+    <Property Name="Contact" Type="nvarchar" MaxLength="128" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="User_id" />
+    </Key>
+    <Property Name="User_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="200" />
+    <Property Name="Role" Type="int" Nullable="false" />
+    <Property Name="PasswordSalt" Type="nvarchar" MaxLength="200" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Ambassador_Ideas">
+    <End Role="Ideas" Type="Self.Ideas" Multiplicity="1" />
+    <End Role="Assigned_Idea" Type="Self.Assigned_Idea" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Ideas">
+        <PropertyRef Name="Idea_num" />
+      </Principal>
+      <Dependent Role="Assigned_Idea">
+        <PropertyRef Name="Idea_num" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Ambassador_School">
+    <End Role="School" Type="Self.School" Multiplicity="1" />
+    <End Role="Assigned_Idea" Type="Self.Assigned_Idea" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="School">
+        <PropertyRef Name="School_id" />
+      </Principal>
+      <Dependent Role="Assigned_Idea">
+        <PropertyRef Name="School_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Ambassador_Users">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="Assigned_Idea" Type="Self.Assigned_Idea" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="User_id" />
+      </Principal>
+      <Dependent Role="Assigned_Idea">
+        <PropertyRef Name="Ambassador_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Append_Log_AssignedIdea">
+    <End Role="Assigned_Idea" Type="Self.Assigned_Idea" Multiplicity="1" />
+    <End Role="Append_Log" Type="Self.Append_Log" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Assigned_Idea">
+        <PropertyRef Name="Assigned_id" />
+      </Principal>
+      <Dependent Role="Append_Log">
+        <PropertyRef Name="Idea_num" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Append_User">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="Append_Log" Type="Self.Append_Log" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="User_id" />
+      </Principal>
+      <Dependent Role="Append_Log">
+        <PropertyRef Name="User_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Ideas_dbo_Users_User_id">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="Ideas" Type="Self.Ideas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="User_id" />
+      </Principal>
+      <Dependent Role="Ideas">
+        <PropertyRef Name="User_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Users_dbo_Code_Code_id">
+    <End Role="Code" Type="Self.Code" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Users" Type="Self.Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Code">
+        <PropertyRef Name="Code_id" />
+      </Principal>
+      <Dependent Role="Users">
+        <PropertyRef Name="Role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Event_Log_Code">
+    <End Role="Code" Type="Self.Code" Multiplicity="1" />
+    <End Role="Event_Log" Type="Self.Event_Log" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Code">
+        <PropertyRef Name="Code_id" />
+      </Principal>
+      <Dependent Role="Event_Log">
+        <PropertyRef Name="Action" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Event_Log_Users">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="Event_Log" Type="Self.Event_Log" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="User_id" />
+      </Principal>
+      <Dependent Role="Event_Log">
+        <PropertyRef Name="User_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_File_Idea">
+    <End Role="Ideas" Type="Self.Ideas" Multiplicity="1" />
+    <End Role="File" Type="Self.File" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Ideas">
+        <PropertyRef Name="Idea_num" />
+      </Principal>
+      <Dependent Role="File">
+        <PropertyRef Name="Idea_num" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TeamCheddarSharpModelStoreContainer">
+    <EntitySet Name="Append_Log" EntityType="Self.Append_Log" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Archive" EntityType="Self.Archive" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Assigned_Idea" EntityType="Self.Assigned_Idea" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Code" EntityType="Self.Code" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Event_Log" EntityType="Self.Event_Log" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="File" EntityType="Self.File" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Ideas" EntityType="Self.Ideas" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="School" EntityType="Self.School" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Ambassador_Ideas" Association="Self.FK_Ambassador_Ideas">
+      <End Role="Ideas" EntitySet="Ideas" />
+      <End Role="Assigned_Idea" EntitySet="Assigned_Idea" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Ambassador_School" Association="Self.FK_Ambassador_School">
+      <End Role="School" EntitySet="School" />
+      <End Role="Assigned_Idea" EntitySet="Assigned_Idea" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Ambassador_Users" Association="Self.FK_Ambassador_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Assigned_Idea" EntitySet="Assigned_Idea" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Append_Log_AssignedIdea" Association="Self.FK_Append_Log_AssignedIdea">
+      <End Role="Assigned_Idea" EntitySet="Assigned_Idea" />
+      <End Role="Append_Log" EntitySet="Append_Log" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Append_User" Association="Self.FK_Append_User">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Append_Log" EntitySet="Append_Log" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Ideas_dbo_Users_User_id" Association="Self.FK_dbo_Ideas_dbo_Users_User_id">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Ideas" EntitySet="Ideas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Users_dbo_Code_Code_id" Association="Self.FK_dbo_Users_dbo_Code_Code_id">
+      <End Role="Code" EntitySet="Code" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Event_Log_Code" Association="Self.FK_Event_Log_Code">
+      <End Role="Code" EntitySet="Code" />
+      <End Role="Event_Log" EntitySet="Event_Log" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Event_Log_Users" Association="Self.FK_Event_Log_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Event_Log" EntitySet="Event_Log" />
+    </AssociationSet>
+    <AssociationSet Name="FK_File_Idea" Association="Self.FK_File_Idea">
+      <End Role="Ideas" EntitySet="Ideas" />
+      <End Role="File" EntitySet="File" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

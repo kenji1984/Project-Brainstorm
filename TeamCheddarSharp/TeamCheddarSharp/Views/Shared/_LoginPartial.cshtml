@@ -1,0 +1,22 @@
+﻿@if (Request.IsAuthenticated)
+{
+    <span>
+        <a href='@Url.Action("UserPanel", "Portal")' class="user">
+            <img class="user" src='@Url.Content("~/Content/images/SettingsCog.png")' />
+        </a>
+    </span>
+    <li>
+        @Html.ActionLink(@Html.Encode(User.Identity.Name), "UserPanel", "Portal", new { name = User.Identity.Name }, null)
+        <ul>
+            <li>@Html.ActionLink("User Preferences", "UserPanel", "Portal", new { name = User.Identity.Name }, null)</li>
+        </ul>
+    </li>
+    <li>@Html.ActionLink("Log Out", "Logout", "Account")</li>
+
+}
+else
+{
+    <li>@Html.ActionLink("Log in", "Login", "Account")</li>
+    <li>@Html.ActionLink("Register", "Register", "Account")</li>
+}
+

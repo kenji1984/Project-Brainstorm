@@ -1,0 +1,107 @@
+﻿@model IEnumerable<TeamCheddarSharp.Models.IdeaView>
+
+@{
+    ViewBag.Title = "Assigned ideas";
+}
+
+@if (Model.Count() <= 0)
+{
+    <div class="bottom_nav_Details2 button " id="school">
+        <p class="button">
+            @Html.ActionLink("Back to Assigned Ideas", "ViewAllAssignedIdeas", "Admin")
+        </p>
+    </div>
+    <div class="bottom_nav_Details_right button" id="school">
+        <p class="button">
+            @Html.ActionLink("Back to Home", "Index")
+        </p>
+    </div>
+    <div class="bottom_nav_Details_end button" id="school">
+        <p class="button">
+            @Html.ActionLink("Back to Portal", "UserPanel", "Portal")
+        </p>
+    </div>
+    <p>
+        This project hasn't been assigned to any schools yet.
+        <b> @Html.ActionLink("Assign", "Assign", "Home", new { id = ViewBag.id }, null) </b> this idea to a school?
+    </p>
+}
+else
+{
+    <div class="bottom_nav_Details2 button" id="school">
+        <p class="button">
+            @Html.ActionLink("Back to Assigned Ideas", "ViewAllAssignedIdeas", "Admin")
+        </p>
+    </div>
+    <div class="bottom_nav_Details_right button" id="school">
+        <p class="button">
+            @Html.ActionLink("Back to Home", "Index")
+        </p>
+    </div>
+    <div class="bottom_nav_Details_end button" id="school">
+        <p class="button">
+            @Html.ActionLink("Back to Portal", "UserPanel", "Portal")
+        </p>
+    </div>
+
+    <br />
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Summary)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AmbassadorName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SchoolName)
+            </th>
+            <th>
+                Functions
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Summary)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.ActionLink(item.AmbassadorName, "AmbassadorIdeas", "Ambassador", new { id = item.User_id }, null)
+                </td>
+                <td>
+                    @Html.ActionLink(item.SchoolName, "IdeasAssignedToSchool", "School", new { id = item.School_id }, null)
+                </td>
+                <td>
+                    @Html.ActionLink("Status", "ChangeStatus", "Admin", new { id = item.Assigned_id }, null)  |
+
+                    <a href='@Url.Action("DeleteAssignedIdea", "Home", new { id = item.Assigned_id })' class="delete">
+                        <img class="user" src='@Url.Content("~/Content/images/trashcan.png")' />
+                    </a>
+
+                    <a href='@Url.Action("Details", "Ambassador", new { id = item.Assigned_id })' class="delete">
+                        <img class="user" src='@Url.Content("~/Content/images/infoIcon.png")' />
+                    </a>
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+<br />
+
+
+

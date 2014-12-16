@@ -1,0 +1,83 @@
+﻿@model IEnumerable<TeamCheddarSharp.Models.AuditTrailView>
+
+@{
+    ViewBag.Title = "AuditTrail";
+}
+
+<div class="bottom_nav_Details2 button" id="school">
+    <p class="button">
+        @Html.ActionLink("Control Panel", "UserPanel", "Portal")
+    </p>
+</div>
+
+@using (Html.BeginForm())
+{
+    if (ViewBag.start_date != null)
+    {
+        <div class="date-box">
+            <b>Date from: </b><input class="date" type="date" name="start_date" value="@ViewBag.start_date" />
+        </div>
+    }
+    else
+    {
+        <div class="date-box">
+            <b>Date from: </b><input class="date" type="date" name="start_date" />
+        </div>
+    }
+    if (ViewBag.end_date != null)
+    {
+        <div class="date-box">
+            <b>Date to: </b><input class="date" type="date" name="end_date" value="@ViewBag.end_date" />
+        </div>
+    }
+    else
+    {
+        <div class="date-box">
+            <b>Date to: </b><input class="date" type="date" name="end_date" />
+        </div>
+    }
+    <input class="date-box" type="submit" value="Filter"/>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Action)
+        </th>
+        <th class="title">
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Action)
+            </td>
+            <td class="title">
+                @if (item.Assigned_id != 0)
+                {
+                    <p>@item.Title (clone)</p>
+                }
+                else
+                {
+                    <p>@item.Title</p>
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+        </tr>
+    }
+
+</table>

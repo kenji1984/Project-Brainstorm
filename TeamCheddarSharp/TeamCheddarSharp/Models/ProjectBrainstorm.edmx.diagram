@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="930693b95edc4007b3c59b65cb5f4b8a" Name="Diagram1">
+        <EntityTypeShape EntityType="TeamCheddarSharpModel.Code" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeamCheddarSharpModel.User" Width="1.5" PointX="2.875" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="TeamCheddarSharpModel.FK_dbo_Users_dbo_Code_Code_id" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="TeamCheddarSharpModel.School" Width="1.5" PointX="7.625" PointY="4" />
+        <EntityTypeShape EntityType="TeamCheddarSharpModel.Archive" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="TeamCheddarSharpModel.Idea" Width="1.5" PointX="5.125" PointY="0.75" />
+        <AssociationConnector Association="TeamCheddarSharpModel.FK_dbo_Ideas_dbo_Users_User_id" />
+        <EntityTypeShape EntityType="TeamCheddarSharpModel.Assigned_Idea" Width="1.5" PointX="9.5" PointY="1.25" />
+        <AssociationConnector Association="TeamCheddarSharpModel.FK_Ambassador_School1" />
+        <EntityTypeShape EntityType="TeamCheddarSharpModel.File" Width="1.5" PointX="2.75" PointY="4.5" />
+        <AssociationConnector Association="TeamCheddarSharpModel.FK_File_Idea" ManuallyRouted="true" >
+          <ConnectorPoint PointX="5.125" PointY="3.2447973632812555" />
+          <ConnectorPoint PointX="2.78125" PointY="3.2447973632812555" />
+          <ConnectorPoint PointX="2.78125" PointY="4.5" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="TeamCheddarSharpModel.Append_Log" Width="1.5" PointX="5.25" PointY="4.25" />
+        <AssociationConnector Association="TeamCheddarSharpModel.FK_Append_User" ManuallyRouted="true" >
+          <ConnectorPoint PointX="4.34375" PointY="4.1340950520833326" />
+          <ConnectorPoint PointX="4.34375" PointY="4.34375" />
+          <ConnectorPoint PointX="5.25" PointY="4.34375" />
+        </AssociationConnector>
+        <AssociationConnector Association="TeamCheddarSharpModel.FK_Append_Log_AssignedIdea" />
+        <AssociationConnector Association="TeamCheddarSharpModel.FK_Ambassador_Ideas" />
+        <EntityTypeShape EntityType="TeamCheddarSharpModel.Event_Log" Width="1.5" PointX="7.25" PointY="0.625" />
+        <AssociationConnector Association="TeamCheddarSharpModel.FK_Event_Log_Code" />
+        <AssociationConnector Association="TeamCheddarSharpModel.FK_Ambassador_Users" />
+        <AssociationConnector Association="TeamCheddarSharpModel.FK_Event_Log_Users" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

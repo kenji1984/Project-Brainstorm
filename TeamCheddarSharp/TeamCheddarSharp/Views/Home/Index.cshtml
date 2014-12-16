@@ -1,0 +1,169 @@
+﻿@model PagedList.IPagedList<TeamCheddarSharp.Models.IdeaView>
+@using PagedList.Mvc;
+@using TeamCheddarSharp.Models;
+
+@{
+    UserModel userLoggedIn = (UserModel)HttpContext.Current.Session["userLoggedIn"];
+}
+
+@{
+    ViewBag.Title = "Project Listings";
+}
+
+@if (Model.Count() == 0 && ViewBag.SearchResult == null)
+{
+    <p>Be the first one to contribute. @Html.ActionLink("Contribute Now!", "Contribute", "Home")</p>
+}
+else if (Model.Count() == 0 && ViewBag.SearchResult != null)
+{
+    <div class="button" id="contribute">
+        <p class="button">
+            @Html.ActionLink("New Project", "Contribute")
+        </p>
+    </div>
+    <div class="button" id="contribute">
+        <p class="button">
+            @Html.ActionLink("View all projects", "Index", "Home")
+        </p>
+
+    </div>
+    <div class="button" id="contribute">
+        <p class="button">
+            @Html.ActionLink("Back to index", "Index", "Home")
+        </p>
+
+    </div>
+    using (Html.BeginForm("Index", "Home", FormMethod.Get))
+    {
+        <p>
+            <b> Search Projects:</b> 
+            @Html.TextBox("search_idea", ViewBag.CurrentFilter as string)
+            <input type="submit" value="Search" class="button" />
+        </p>
+    }
+    
+    <hr/>
+    <p>0 Projects with name "@ViewBag.SearchResult" found.</p>
+    <hr />
+    
+}
+else
+{
+    <div class="top_menu">
+        <div class="button" id="contribute">
+            <p class="button">
+                @Html.ActionLink("New Project", "Contribute")
+            </p>
+        </div>
+        <div class="button" id="ViewAll">
+            <p class="button">
+                @Html.ActionLink("View all projects", "Index", "Home")
+            </p>
+
+        </div>
+    </div>
+    using (Html.BeginForm("Index", "Home", FormMethod.Get))
+    {
+        <p>
+            <b> Search Projects:</b> @Html.TextBox("search_idea", ViewBag.CurrentFilter as string)
+            <input type="submit" value="Search" class="button"/>
+        </p>
+    }
+    if (ViewBag.SearchResult != null) { 
+        <hr />
+        <p>@Model.Count() project idea with keyword "@ViewBag.SearchResult" found.</p>
+    }
+    <hr />
+
+    
+    
+    <table class="table">
+        <tr>
+            <th class="title">
+                @Html.ActionLink("Title", "Index", "Home", new { sortOrder = ViewBag.TitleSort, currentFilter = ViewBag.CurrentFilter}, null)
+            </th>
+            <th class="summary">
+                Project Summary
+            </th>
+            <th>
+                @Html.ActionLink("Submitted on", "Index", "Home", new { sortOrder = ViewBag.DateSort, currentFilter = ViewBag.CurrentFilter }, null)
+            </th>
+            <th>
+                @Html.ActionLink("Contributed by", "Index", "Home", new { sortOrder = ViewBag.ContrSort, currentFilter = ViewBag.CurrentFilter }, null)
+            </th>
+            @if (HttpContext.Current.Session["userLoggedIn"] != null && userLoggedIn.Role == "Admin")
+            {
+                <th>
+                    Assigned
+                </th>
+            }
+            <th>
+                Functions
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="title">
+                    @Html.ActionLink(item.Title, "Details", new { id = item.Idea_num })
+                </td>
+                <td class="summary">
+                    @Html.DisplayFor(modelItem => item.Summary)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date_submitted)
+                </td>
+                <td>
+                    @Html.ActionLink(item.UserName, "ListProjectByUser", new { id = item.User_id })
+                </td>
+                @if (HttpContext.Current.Session["userLoggedIn"] != null && userLoggedIn.Role == "Admin")
+                {
+                    <td>
+                        @if (item.NumOfClones > 0)
+                        {
+                            @Html.ActionLink(item.NumOfClones.ToString(), "AssignedIdeas", "Home", new { id = item.Idea_num }, null)
+                        }
+                        else
+                        {
+                            @Html.DisplayName("Submitted")
+                        }
+                    </td>
+                }
+                <td>
+                    @if (Request.IsAuthenticated)
+                    {
+                        //if Session expired before Form Authentication Cookies. Log out the user.
+                        if (HttpContext.Current.Session["userLoggedIn"] != null)
+                        {
+                            //UserModel userLoggedIn = (UserModel)HttpContext.Current.Session["userLoggedIn"];
+                            if (userLoggedIn.Role == "Admin")
+                            {
+                                <a href='@Url.Action("ConfirmDelete", new { id = item.Idea_num })' class="delete">
+                                    <img class="user" src='@Url.Content("~/Content/images/trashcan.png")' />
+                                </a>
+                            }
+                            
+                            if ((userLoggedIn.User_id == item.User_id || userLoggedIn.Role == "Admin") && item.Assigned == false)
+                            {
+                                <a href='@Url.Action("Edit", new { id = item.Idea_num })' class="edit">
+                                    <img class="user" src='@Url.Content("~/Content/images/edit.png")' />
+                                </a>
+                            }     
+                        }
+                        else
+                        {
+                            FormsAuthentication.SignOut();
+                            HttpContext.Current.Session.Abandon();
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+    <br />
+    
+        @Html.PagedListPager(Model, page => Url.Action("Index",
+            new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+   
+}

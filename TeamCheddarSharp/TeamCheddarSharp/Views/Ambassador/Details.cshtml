@@ -1,0 +1,59 @@
+﻿@* Details for Ambassador view *@
+@model TeamCheddarSharp.Models.IdeaView
+
+@{
+    ViewBag.Title = "Details";
+}
+<div class="button bottom_nav_Details_right" id="school">
+    <p class="button">
+        @Html.ActionLink("Append Information", "Append", "Ambassador", new { id = Model.Assigned_id }, null)
+    </p>
+</div>
+<div class="button bottom_nav_Details2" id="school">
+    <p class="button">
+        @Html.ActionLink("Back to my assigned ideas", "AmbassadorIdeas", "Ambassador", new { id = ViewBag.currAmbassadorID }, null)
+    </p>
+</div>
+
+<dl>
+    <dt>
+        @Html.DisplayNameFor(model => model.Title)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Title)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.Summary)
+    </dt>
+    <dd>
+        @Html.Raw(Model.Summary.Replace(Environment.NewLine, "<br/>"))
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.Description)
+    </dt>
+    <dd>
+        @Html.Raw(Model.Description.Replace(Environment.NewLine, "<br/>"))
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.Justification)
+    </dt>
+    <dd>
+        @Html.Raw(Model.Justification.Replace(Environment.NewLine, "<br/>"))
+    </dd>
+
+    @if (ViewBag.Appends.Count > 0)
+    {
+        <dt>
+            <b>Ambassador's Notes</b>
+        </dt>
+        <dd>
+            @foreach (var item in ViewBag.Appends)
+            {
+                <p style="color: green">
+                    @Html.Raw(@item.AppendText.Replace(Environment.NewLine, "<br/>"))
+                       - by @item.AmbassadorName  on @item.AppendDate
+                </p>
+            }
+        </dd>
+    }
+</dl>

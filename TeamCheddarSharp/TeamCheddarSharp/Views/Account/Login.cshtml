@@ -1,0 +1,52 @@
+﻿@model TeamCheddarSharp.Models.UserModel
+
+@{
+    ViewBag.Title = "Login";
+}
+
+@using (Html.BeginForm(new { ViewBag.returnUrl }))
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div>
+            <fieldset>
+                <legend>Login Form</legend>
+                <div class="login-form">
+                    <div>@Html.LabelFor(model => model.Name)</div>
+
+                    <div>
+                        @Html.TextBoxFor(model => model.Name, new { @class = "first" })
+                    </div>
+
+                    <div>
+                        @Html.LabelFor(model => model.Password)
+                    </div>
+
+                    <div>
+                        @Html.PasswordFor(model => model.Password)
+                        @Html.ValidationMessageFor(model => model.Password, "Password must be minimum of 6 characters.")
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Log in" class="btn btn-default" />
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+    </div>
+}
+
+
+<p style="margin-left: 15%; margin-top: 15px">
+    Haven't registered?
+    @Html.ActionLink(" Sign up now", "Register", "Account")
+</p>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

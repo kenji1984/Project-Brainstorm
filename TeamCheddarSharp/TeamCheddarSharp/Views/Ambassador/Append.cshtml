@@ -1,0 +1,74 @@
+﻿@using TeamCheddarSharp.Models;
+@model TeamCheddarSharp.Models.IdeaView
+
+
+<div class="bottom_nav_Details2 button" id="school">
+    <p class="button">
+        @Html.ActionLink("Back to List", "AmbassadorIdeas", "Ambassador", new { id = ViewBag.Ambassador_id }, null)
+    </p>
+</div>
+
+
+<div class="append">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div>
+            @Html.Label("Append Text")
+        </div>
+        <div>
+            @Html.TextArea("AppendText", new { htmlAttributes = new { @class = "first form-control" } })
+        </div>
+
+        @Html.Hidden("AppendDate", DateTime.Now)
+
+
+        <div class="func-btn">
+            <div class="assign">
+                <input type="submit" value="Save note" class="btn btn-default" />
+            </div>
+        </div>
+    }
+</div>
+
+<div>
+    <dl>
+        @{
+            if (ViewBag.Appends.Count > 0)
+            {
+                <dt>
+                    Previous notes
+                </dt>
+                <dd>
+                    @foreach (var trail in ViewBag.Appends)
+                    {
+                        <p style="color:green"> @trail.AppendText - by @trail.AmbassadorName on @trail.AppendDate </p>
+                    }
+                </dd>
+            }
+        }
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Summary)
+        </dt>
+        <dd>
+            @Html.Raw(Model.Summary.Replace(Environment.NewLine, "<br/>"))
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.Raw(Model.Description.Replace(Environment.NewLine, "<br/>"))
+        </dd>
+
+    </dl>
+
+</div>

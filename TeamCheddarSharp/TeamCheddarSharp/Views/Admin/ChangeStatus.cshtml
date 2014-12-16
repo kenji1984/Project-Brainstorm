@@ -1,0 +1,72 @@
+﻿@model TeamCheddarSharp.Models.IdeaView
+
+@{
+    ViewBag.Title = "Change Status";
+}
+
+<div class="bottom_nav_Details2 button" id="school">
+    <p class="button">
+        @Html.ActionLink("Back to Project details", "Details", "Ambassador", new { id = Model.Assigned_id }, null)
+    </p>
+</div>
+
+<div class="bottom_nav_Details_right button" id="school">
+    <p class="button">
+        @Html.ActionLink("Back to my assigned ideas", "AmbassadorIdeas", "Ambassador", new { id = ViewBag.currentUserId }, null)
+    </p>
+</div>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        <dl>
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Summary)
+            </dt>
+            <dd>
+                @Html.Raw(Model.Summary.Replace(Environment.NewLine, "<br/>"))
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+            <dd>
+                @Html.Raw(Model.Description.Replace(Environment.NewLine, "<br/>"))
+            </dd>
+        </dl>
+    </div>
+
+    <div class="assign-row">
+        <div >
+            <b> @Html.DisplayName("Change status to: ") </b>
+        </div>
+        <div>
+            @Html.DropDownList("Status", new List<SelectListItem>
+       {
+           new SelectListItem{ Text="In Progress", Value="In Progress"},
+           new SelectListItem{ Text="Completed", Value="Completed"}
+       }, "Select status")
+        </div>
+    </div>
+
+    <div class="func-btn">
+        <div class="assign">
+            <input type="submit" value="Save change" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+@*<div>
+        @Html.ActionLink("Details", "Details", "Home", new { id = Model.Idea_num }, null) |
+        @Html.ActionLink("Back to List", "Index", "Home")
+    </div>*@

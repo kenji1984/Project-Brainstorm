@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "All Users";
+}
+
+
+<div class="button" id="school">
+    <p>
+        @Html.ActionLink("Back to User Preferences", "UserPanel", "Portal")
+    </p>
+
+</div>
+@using (Html.BeginForm("ListUsers", "Admin"))
+{
+    <div>
+        @Html.TextBox("name", null, new { @class = "search-name" })
+        <input type="submit" value="Search"/>
+    </div>
+}
+<br/>
+
+<input type="button" value="All users" onclick="location.href='@Url.Action("ListUsers", "Admin")'" />
+<input type="button" value="Ambassador" onclick="location.href='@Url.Action("ListAmbassadors", "Admin")'" />
+<input type="button" value="Contributor" onclick="location.href='@Url.Action("ListContributors", "Admin")'" />
+
+<div class="user-list">
+    @Html.Partial("_UserListPartial")
+</div>

@@ -1,0 +1,295 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TeamCheddarSharpModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Code">
+    <Key>
+      <PropertyRef Name="Code_id" />
+    </Key>
+    <Property Name="Code_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Code_def" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Users" Relationship="Self.FK_dbo_Users_dbo_Code_Code_id" FromRole="Code" ToRole="Users" />
+    <NavigationProperty Name="Event_Log" Relationship="TeamCheddarSharpModel.FK_Event_Log_Code" FromRole="Code" ToRole="Event_Log" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="User_id" />
+    </Key>
+    <Property Name="User_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Role" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Code" Relationship="Self.FK_dbo_Users_dbo_Code_Code_id" FromRole="Users" ToRole="Code" />
+    <Property Name="PasswordSalt" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Ideas" Relationship="TeamCheddarSharpModel.FK_dbo_Ideas_dbo_Users_User_id" FromRole="User" ToRole="Idea" />
+    <NavigationProperty Name="Append_Log" Relationship="TeamCheddarSharpModel.FK_Append_User" FromRole="User" ToRole="Append_Log" />
+    <NavigationProperty Name="Assigned_Idea" Relationship="TeamCheddarSharpModel.FK_Ambassador_Users" FromRole="User" ToRole="Assigned_Idea" />
+    <NavigationProperty Name="Event_Log" Relationship="TeamCheddarSharpModel.FK_Event_Log_Users" FromRole="User" ToRole="Event_Log" />
+  </EntityType>
+  <Association Name="FK_dbo_Users_dbo_Code_Code_id">
+    <End Role="Code" Type="Self.Code" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Users" Type="Self.User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Code">
+        <PropertyRef Name="Code_id" />
+      </Principal>
+      <Dependent Role="Users">
+        <PropertyRef Name="Role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TeamCheddarSharpEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Codes" EntityType="Self.Code" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <AssociationSet Name="FK_dbo_Users_dbo_Code_Code_id" Association="Self.FK_dbo_Users_dbo_Code_Code_id">
+      <End Role="Code" EntitySet="Codes" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+    <EntitySet Name="Schools" EntityType="TeamCheddarSharpModel.School" />
+    <EntitySet Name="Archives" EntityType="TeamCheddarSharpModel.Archive" />
+    <EntitySet Name="Ideas" EntityType="TeamCheddarSharpModel.Idea" />
+    <AssociationSet Name="FK_dbo_Ideas_dbo_Users_User_id" Association="TeamCheddarSharpModel.FK_dbo_Ideas_dbo_Users_User_id">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Idea" EntitySet="Ideas" />
+    </AssociationSet>
+    <EntitySet Name="Assigned_Idea" EntityType="TeamCheddarSharpModel.Assigned_Idea" />
+    <AssociationSet Name="FK_Ambassador_School1" Association="TeamCheddarSharpModel.FK_Ambassador_School1">
+      <End Role="School" EntitySet="Schools" />
+      <End Role="Assigned_Idea" EntitySet="Assigned_Idea" />
+    </AssociationSet>
+    <EntitySet Name="Files" EntityType="TeamCheddarSharpModel.File" />
+    <AssociationSet Name="FK_File_Idea" Association="TeamCheddarSharpModel.FK_File_Idea">
+      <End Role="Idea" EntitySet="Ideas" />
+      <End Role="File" EntitySet="Files" />
+    </AssociationSet>
+    <EntitySet Name="Append_Log" EntityType="TeamCheddarSharpModel.Append_Log" />
+    <AssociationSet Name="FK_Append_User" Association="TeamCheddarSharpModel.FK_Append_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Append_Log" EntitySet="Append_Log" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Append_Log_AssignedIdea" Association="TeamCheddarSharpModel.FK_Append_Log_AssignedIdea">
+      <End Role="Assigned_Idea" EntitySet="Assigned_Idea" />
+      <End Role="Append_Log" EntitySet="Append_Log" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Ambassador_Ideas" Association="TeamCheddarSharpModel.FK_Ambassador_Ideas">
+      <End Role="Idea" EntitySet="Ideas" />
+      <End Role="Assigned_Idea" EntitySet="Assigned_Idea" />
+    </AssociationSet>
+    <EntitySet Name="Event_Log" EntityType="TeamCheddarSharpModel.Event_Log" />
+    <AssociationSet Name="FK_Event_Log_Code" Association="TeamCheddarSharpModel.FK_Event_Log_Code">
+      <End Role="Code" EntitySet="Codes" />
+      <End Role="Event_Log" EntitySet="Event_Log" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Ambassador_Users" Association="TeamCheddarSharpModel.FK_Ambassador_Users">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Assigned_Idea" EntitySet="Assigned_Idea" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Event_Log_Users" Association="TeamCheddarSharpModel.FK_Event_Log_Users">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Event_Log" EntitySet="Event_Log" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="School">
+    <Key>
+      <PropertyRef Name="School_id" />
+    </Key>
+    <Property Name="School_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="Contact" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Assigned_Idea" Relationship="TeamCheddarSharpModel.FK_Ambassador_School1" FromRole="School" ToRole="Assigned_Idea" />
+  </EntityType>
+  <EntityType Name="Archive">
+    <Key>
+      <PropertyRef Name="Archive_id" />
+    </Key>
+    <Property Name="Title" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Summary" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Author" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Date_submitted" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="School" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="Archive_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Idea_num" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Idea">
+    <Key>
+      <PropertyRef Name="Idea_num" />
+    </Key>
+    <Property Name="Idea_num" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Summary" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Date_submitted" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Comp_date" Type="DateTime" Precision="3" />
+    <Property Name="User_id" Type="Int32" Nullable="false" />
+    <Property Name="Title" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="User" Relationship="TeamCheddarSharpModel.FK_dbo_Ideas_dbo_Users_User_id" FromRole="Idea" ToRole="User" />
+    <Property Name="Assigned" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Files" Relationship="TeamCheddarSharpModel.FK_File_Idea" FromRole="Idea" ToRole="File" />
+    <Property Name="Justification" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Assigned_Idea" Relationship="TeamCheddarSharpModel.FK_Ambassador_Ideas" FromRole="Idea" ToRole="Assigned_Idea" />
+  </EntityType>
+  <Association Name="FK_dbo_Ideas_dbo_Users_User_id">
+    <End Type="TeamCheddarSharpModel.User" Role="User" Multiplicity="1" />
+    <End Type="TeamCheddarSharpModel.Idea" Role="Idea" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="User_id" />
+      </Principal>
+      <Dependent Role="Idea">
+        <PropertyRef Name="User_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Assigned_Idea">
+    <Key>
+      <PropertyRef Name="Assigned_id" />
+    </Key>
+    <Property Name="Ambassador_id" Type="Int32" Nullable="false" />
+    <Property Name="School_id" Type="Int32" Nullable="false" />
+    <Property Name="Idea_num" Type="Int32" Nullable="false" />
+    <Property Name="Status" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+    <Property Name="Assigned_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Completion_date" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="School" Relationship="TeamCheddarSharpModel.FK_Ambassador_School1" FromRole="Assigned_Idea" ToRole="School" />
+    <NavigationProperty Name="Append_Log" Relationship="TeamCheddarSharpModel.FK_Append_Log_AssignedIdea" FromRole="Assigned_Idea" ToRole="Append_Log" />
+    <NavigationProperty Name="Idea" Relationship="TeamCheddarSharpModel.FK_Ambassador_Ideas" FromRole="Assigned_Idea" ToRole="Idea" />
+    <NavigationProperty Name="User" Relationship="TeamCheddarSharpModel.FK_Ambassador_Users" FromRole="Assigned_Idea" ToRole="User" />
+  </EntityType>
+  <Association Name="FK_Ambassador_School1">
+    <End Type="TeamCheddarSharpModel.School" Role="School" Multiplicity="1" />
+    <End Type="TeamCheddarSharpModel.Assigned_Idea" Role="Assigned_Idea" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="School">
+        <PropertyRef Name="School_id" />
+      </Principal>
+      <Dependent Role="Assigned_Idea">
+        <PropertyRef Name="School_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="File">
+    <Key>
+      <PropertyRef Name="File_id" />
+    </Key>
+    <Property Name="File_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="File_name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="File_data" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+    <Property Name="Idea_num" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Idea" Relationship="TeamCheddarSharpModel.FK_File_Idea" FromRole="File" ToRole="Idea" />
+  </EntityType>
+  <Association Name="FK_File_Idea">
+    <End Type="TeamCheddarSharpModel.Idea" Role="Idea" Multiplicity="1" />
+    <End Type="TeamCheddarSharpModel.File" Role="File" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Idea">
+        <PropertyRef Name="Idea_num" />
+      </Principal>
+      <Dependent Role="File">
+        <PropertyRef Name="Idea_num" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Append_Log">
+    <Key>
+      <PropertyRef Name="Log_id" />
+    </Key>
+    <Property Name="Log_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Idea_num" Type="Int32" Nullable="false" />
+    <Property Name="Append_trail" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Date_append" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="User_id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="TeamCheddarSharpModel.FK_Append_User" FromRole="Append_Log" ToRole="User" />
+    <NavigationProperty Name="Assigned_Idea" Relationship="TeamCheddarSharpModel.FK_Append_Log_AssignedIdea" FromRole="Append_Log" ToRole="Assigned_Idea" />
+  </EntityType>
+  <Association Name="FK_Append_User">
+    <End Type="TeamCheddarSharpModel.User" Role="User" Multiplicity="1" />
+    <End Type="TeamCheddarSharpModel.Append_Log" Role="Append_Log" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="User_id" />
+      </Principal>
+      <Dependent Role="Append_Log">
+        <PropertyRef Name="User_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Append_Log_AssignedIdea">
+    <End Type="TeamCheddarSharpModel.Assigned_Idea" Role="Assigned_Idea" Multiplicity="1" />
+    <End Type="TeamCheddarSharpModel.Append_Log" Role="Append_Log" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Assigned_Idea">
+        <PropertyRef Name="Assigned_id" />
+      </Principal>
+      <Dependent Role="Append_Log">
+        <PropertyRef Name="Idea_num" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Ambassador_Ideas">
+    <End Type="TeamCheddarSharpModel.Idea" Role="Idea" Multiplicity="1" />
+    <End Type="TeamCheddarSharpModel.Assigned_Idea" Role="Assigned_Idea" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Idea">
+        <PropertyRef Name="Idea_num" />
+      </Principal>
+      <Dependent Role="Assigned_Idea">
+        <PropertyRef Name="Idea_num" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Event_Log">
+    <Key>
+      <PropertyRef Name="Event_id" />
+    </Key>
+    <Property Name="User_id" Type="Int32" Nullable="false" />
+    <Property Name="Idea_num" Type="Int32" Nullable="false" />
+    <Property Name="Action" Type="Int32" Nullable="false" />
+    <Property Name="Access_date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Event_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Assigned_id" Type="Int32" Nullable="false" />
+    <Property Name="School_id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Code" Relationship="TeamCheddarSharpModel.FK_Event_Log_Code" FromRole="Event_Log" ToRole="Code" />
+    <Property Name="Title" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="User" Relationship="TeamCheddarSharpModel.FK_Event_Log_Users" FromRole="Event_Log" ToRole="User" />
+  </EntityType>
+  <Association Name="FK_Event_Log_Code">
+    <End Type="TeamCheddarSharpModel.Code" Role="Code" Multiplicity="1" />
+    <End Type="TeamCheddarSharpModel.Event_Log" Role="Event_Log" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Code">
+        <PropertyRef Name="Code_id" />
+      </Principal>
+      <Dependent Role="Event_Log">
+        <PropertyRef Name="Action" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Ambassador_Users">
+    <End Type="TeamCheddarSharpModel.User" Role="User" Multiplicity="1" />
+    <End Type="TeamCheddarSharpModel.Assigned_Idea" Role="Assigned_Idea" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="User_id" />
+      </Principal>
+      <Dependent Role="Assigned_Idea">
+        <PropertyRef Name="Ambassador_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Event_Log_Users">
+    <End Type="TeamCheddarSharpModel.User" Role="User" Multiplicity="1" />
+    <End Type="TeamCheddarSharpModel.Event_Log" Role="Event_Log" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="User_id" />
+      </Principal>
+      <Dependent Role="Event_Log">
+        <PropertyRef Name="User_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

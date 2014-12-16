@@ -1,0 +1,68 @@
+﻿@using TeamCheddarSharp.Models;
+@model IEnumerable<TeamCheddarSharp.Models.Archive>
+
+@{
+    ViewBag.Title = "ViewArchive";
+}
+
+@{
+    UserModel user = (UserModel)HttpContext.Current.Session["userLoggedIn"];
+
+    if (user.Role == "Admin")
+    {
+
+        <table class="table">
+            <tr>
+                <th class="title">
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th class="summary">
+                    @Html.DisplayNameFor(model => model.Summary)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Author)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date_submitted)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.School)
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="title">
+                        @Html.ActionLink(item.Title, "ArchiveDetails", "Admin", new { id = item.Archive_id }, null)
+                    </td>
+                    <td class="summary">
+                        @Html.DisplayFor(modelItem => item.Summary)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Author)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date_submitted)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.School)
+                    </td>
+                </tr>
+            }
+
+        </table>
+    }
+    else
+    {
+        <h4>Unauthorized Access!</h4>
+    }
+}
+
+<p>@Html.ActionLink("Back to Portal", "UserPanel", "Portal")</p>

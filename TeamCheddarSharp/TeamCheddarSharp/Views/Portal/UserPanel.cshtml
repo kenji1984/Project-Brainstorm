@@ -1,0 +1,20 @@
+﻿@model TeamCheddarSharp.Models.UserModel
+
+@{
+    ViewBag.Title = "UserPanel";
+}
+
+@if (Model.Role == "Admin")
+{
+    @Html.Partial("_AdminPartial")
+}
+@if (Model.Role == "Contributor")
+{
+    @Html.Partial("_UserPartial")
+}
+@if (Model.Role == "Ambassador")
+{
+    @Html.Partial("_AmbassadorPartial")
+}
+
+

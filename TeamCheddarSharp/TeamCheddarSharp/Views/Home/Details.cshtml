@@ -1,0 +1,99 @@
+﻿@using TeamCheddarSharp.Models;
+@model TeamCheddarSharp.Models.Idea
+
+@{
+    ViewBag.Title = "Project Detail";
+}
+
+<div class="bottom_nav_Details2">
+    @{
+        if (Request.IsAuthenticated)
+        {
+            if (HttpContext.Current.Session["userLoggedIn"] != null)
+            {
+                UserModel userLoggedIn = (UserModel)HttpContext.Current.Session["userLoggedIn"];
+
+                if ((userLoggedIn.User_id == Model.User_id || userLoggedIn.Role == "Admin") && Model.Assigned == false)
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.Idea_num }) <span> | </span>
+                }
+                if (userLoggedIn.Role == "Admin")
+                {
+                    @Html.ActionLink("Delete", "ConfirmDelete", new { id = Model.Idea_num }) <span> | </span>
+                    @Html.ActionLink("Assign", "Assign", new { id = Model.Idea_num }) <span> | </span>
+                    @Html.ActionLink("Change status", "AssignedIdeas", "Home", new { id = Model.Idea_num }, null) <span> | </span>
+                }
+            }
+            else
+            {
+                FormsAuthentication.SignOut();
+                HttpContext.Current.Session.Abandon();
+            }
+        }
+    }
+
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+<div>
+    <dl>
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            <b>@Html.DisplayNameFor(model => model.Summary)</b>
+        </dt>
+
+        <dd>
+            @*@Html.DisplayFor(model => model.Summary)*@
+            @Html.Raw(Model.Summary.Replace(Environment.NewLine, "<br/>"))
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @*@Html.DisplayFor(model => model.Description)*@
+            @Html.Raw(Model.Description.Replace(Environment.NewLine, "<br/>"))
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Justification)
+        </dt>
+
+        <dd>
+            @*@Html.DisplayFor(model => model.Justification)*@
+            @Html.Raw(Model.Justification.Replace(Environment.NewLine, "<br/>"))
+        </dd>
+
+        <dt>
+            <b>Date Submitted</b>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date_submitted)
+        </dd>
+
+        @if (ViewBag.AttachedFiles.Count > 0)
+        {
+            <dt>
+                <b>Attached files</b>
+            </dt>
+            <dd class="dd-files">
+
+                @foreach (var file in ViewBag.AttachedFiles)
+                {
+                    <p> @Html.ActionLink((string)file.File_name, "Download", "Home", new { id = file.File_id }, null) </p>
+                }
+            </dd>
+        }
+    </dl>
+</div>
+

@@ -1,0 +1,119 @@
+﻿@using TeamCheddarSharp.Models;
+@model IEnumerable<TeamCheddarSharp.Models.IdeaView>
+
+@{
+    ViewBag.Title = "Project Listings";
+}
+
+@{
+    UserModel userLoggedIn = (UserModel)HttpContext.Current.Session["userLoggedIn"];
+}
+
+@if (Model.Count() == 0)
+{
+    <p>You haven't contributed any ideas yet! @Html.ActionLink("Submit an idea now", "Contribute", "Home")!</p>
+}
+else if(userLoggedIn != null)
+{
+    <div class="bottom_nav_Details2 button" id="school">
+        <p class="button">
+            @Html.ActionLink("New Project", "Contribute")
+        </p>
+    </div>
+    
+    <div class="bottom_nav_Details_right button" id="school">
+        <p class="button">
+            @Html.ActionLink("View all projects", "Index", "Home")
+        </p>
+
+    </div>
+    <table class="table">
+        <tr>
+            <th class="title">
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th class="summary">
+                @Html.DisplayNameFor(model => model.Summary)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date_submitted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            @if (HttpContext.Current.Session["userLoggedIn"] != null && userLoggedIn.Role == "Admin")
+            {
+                <th>
+                    Assigned
+                </th>
+            }
+            <th>
+                Functions
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="title">
+                    @Html.ActionLink(item.Title, "Details", new { id = item.Idea_num })
+                </td>
+                <td class="summary">
+                    @Html.DisplayFor(modelItem => item.Summary)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date_submitted)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                    @*@Html.ActionLink(item.UserName, "ListProjectByUser", new { id = item.User_id })*@
+                </td>
+                @if (HttpContext.Current.Session["userLoggedIn"] != null && userLoggedIn.Role == "Admin")
+                {
+                    <td>
+                        @if (item.NumOfClones > 0)
+                        {
+                            @Html.ActionLink(item.NumOfClones.ToString(), "AssignedIdeas", "Home", new { id = item.Idea_num }, null)
+                        }
+                        else
+                        {
+                            @Html.DisplayName("Submitted")
+                        }
+                    </td>
+
+                }
+                <td>
+                    @if (Request.IsAuthenticated)
+                    {
+                        //if Session expired before Form Authentication Cookies. Log out the user.
+                        if (HttpContext.Current.Session["userLoggedIn"] != null)
+                        {
+                            //UserModel userLoggedIn = (UserModel)HttpContext.Current.Session["userLoggedIn"];
+                            if (userLoggedIn.Role == "Admin")
+                            {
+                                <a href='@Url.Action("ConfirmDelete", new { id = item.Idea_num })' class="delete">
+                                    <img class="user" src='@Url.Content("~/Content/images/trashcan.png")' />
+                                </a>
+                            }
+                            <span> </span>
+                        
+                            if ((userLoggedIn.User_id == item.User_id || userLoggedIn.Role == "Admin") && item.Assigned == false)
+                            {
+                                <a href='@Url.Action("Edit", new { id = item.Idea_num })' class="edit">
+                                    <img class="user" src='@Url.Content("~/Content/images/edit.png")' />
+                                </a>
+                            }
+                            
+                            
+                        }
+                        else
+                        {
+                            FormsAuthentication.SignOut();
+                            HttpContext.Current.Session.Abandon();
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+}
